@@ -124,8 +124,29 @@ fn main() {
         say_hi();
     }
 
+    // pass by values
+
+    let mut name = "Rust";
+    say_hello(&mut name);
+
+    // function with return
+
+    println!("\nResponse: {:?}", greet(&mut name));
+
 }
 
 fn say_hi(){
     println!{"\nHEllo There!!"};
+}
+
+fn say_hello(name: &mut &str) {
+    *name = "Rustc";
+    println!("\nHello {}", name);
+}
+
+fn greet(name: &mut &str) -> String {
+    let greeting = format!("Hello {}", name);
+    return greeting;
+    // or
+    // greeting
 }
