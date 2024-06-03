@@ -63,10 +63,69 @@ fn main() {
     let char1 = 'A';
     let smiley = '\u{1F601}';
 
-    println!("{}, {}", char1, smiley);
+    println!("{}, {}\n", char1, smiley);
 
+    // Strings
     // Strings (smillar to siles in golang--string slices)
+    // string slices are immutable
 
+    let cat: &'static str = "Fluffy";
+    println!("{}\n", cat);
 
+    // string objects
 
+    let dog = String::new();
+
+    let dog = String::from("Max");
+
+    println!("{}\n", dog);
+
+    // string build 
+
+    let mut owner = format!("Hi, Cyberman is learning {}", "Rust");
+    println!("{}\n", owner);
+
+    // length of string
+    println!("{}\n", dog.len());
+
+    // push to a string
+    owner.push('!');
+
+    owner.push_str("\nGood to know man");
+    println!("{}\n", owner);
+
+    // replace
+
+    let new_owner = owner.replace("man", "cyberman");
+    println!("{}\n", new_owner);
+
+    // Constants
+    // shadoing is not supported
+
+    const URL: &str = "rust.com";
+    println!("{}\n", URL);
+
+    // Arithmetric Operators
+
+    let a = 2 / 2;
+    let b = 10 * 3;
+    
+    println!("a={}, b={}", a, b);
+
+    // Rational Operators
+    println!("a >= b ? {}", a >= b);
+
+    // Functions
+    say_hi();
+
+    // For loops
+
+    for i in 1..5 {
+        say_hi();
+    }
+
+}
+
+fn say_hi(){
+    println!{"\nHEllo There!!"};
 }
