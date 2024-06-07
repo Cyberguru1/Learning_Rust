@@ -1,3 +1,5 @@
+use std::ops::Add;
+
 // Traits
 // Generics
 // dyn
@@ -14,6 +16,24 @@ struct RustDev {
 struct JavaDev {
     awsome: bool
 }
+
+#[derive(Debug)]
+struct Point {
+    x: f64,
+    y: f64
+}
+
+impl Add for Point {
+    type Output = Point;
+
+    fn add(self, other: Self) -> Self::Output {
+        Point {
+            x: self.x + other.x,
+            y: self.y + other.y
+        }
+    }
+}
+
 
 trait Developer {
     fn new(awsome: bool) -> Self;
@@ -97,4 +117,101 @@ fn main() {
     bark_it(dog);
     bark_it(cat);
 
+    // Dyn
+    // Use for returning traits
+
+    println!("\nThe animal says {}", get_animal(0.4).make_noise());
+    println!("\nThe animal says {}", get_animal(1.4).make_noise());
+
+    // operator overloading
+    let a = vec![1, 2, 3, 4];
+    println!("\nSum of the vector a {:?} is {}", a, a.sum());
+
+    let p1 = Point { x: 0.5, y: 0.5 };
+    let p2 = Point { x: 0.5, y: 0.8 };
+    let p3 = p1 + p2;
+    println!("\nSum of p1 {:?} and p2 {:?} is {:?}", Point { x: 0.5, y: 0.5}, Point { x: 0.5, y: 0.8 }, p3);
+
+    // Static Dispatch
+    // process of monomorphization
+
+    let x = 32;
+    let b = "Hi John".to_string();
+
+    duplicate(&x);
+    duplicate(&b);
+
+    // Dynamic Dispatch
+
+
+
+
+
+}
+
+
+trait duplicate {
+    fn dupl(&self) -> String;
+}
+
+impl duplicate for String {
+    fn dupl(&self) -> String {
+        format!("{0} {0}", *self)
+    }
+}
+
+impl duplicate for i32 {
+    fn dupl(&self) -> String {
+        format!("{}", *self*2)
+    }
+}
+
+// fn duplicate<T: duplicate>(x: T) {
+//     println!("{}", x.dupl());
+// }
+
+fn duplicate(x: &dyn duplicate) {
+    println!("{}", x.dupl());
+}
+// adding functionalty to existing structures
+trait summable<T> {
+    fn sum(&self) -> T;
+}
+
+impl summable<i32> for Vec<i32> {
+    fn sum(&self) -> i32 {
+        let mut sum = 0;
+        for i in self {
+            sum += *i;
+        }
+        sum
+    }
+
+    
+}
+struct  Dog1 {}
+struct  Cat1 {}
+
+trait Animal {
+    fn make_noise(&self) -> &'static str;
+}
+
+impl Animal for Dog1 {
+    fn make_noise(&self) -> &'static str {
+        "woof"
+    }
+}
+
+impl Animal for Cat1 {
+    fn make_noise(&self) -> &'static str {
+        "meow"
+    }
+}
+
+fn get_animal(rand_number: f64) -> Box<dyn Animal> {
+    if rand_number < 1.0 {
+        Box::new( Dog1 {} )
+    } else {
+        Box::new( Cat1 {} )
+    }
 }
